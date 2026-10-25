@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CampusEvents | College Event Management</title>
+<style>
+:root{--navy:#111a38;--purple:#6558e8;--bg:#f5f6fc;--muted:#697386}
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial,sans-serif;background:var(--bg);color:var(--navy)}
+header{background:#fff;padding:18px 7%;display:flex;justify-content:space-between;align-items:center;box-shadow:0 2px 12px #1018280d;position:sticky;top:0;z-index:2}
+.logo{font-weight:800;font-size:21px;color:var(--purple)}
+nav a{margin-left:20px;text-decoration:none;color:var(--navy);font-size:14px}
+button{background:var(--purple);color:white;border:0;padding:11px 17px;border-radius:9px;cursor:pointer;font-weight:600}
+button:hover{opacity:.88}
+.hero{padding:65px 7%;background:linear-gradient(120deg,#151d40,#4d3db0);color:white;display:grid;grid-template-columns:1.3fr 1fr;gap:30px;align-items:center}
+.hero h1{font-size:clamp(34px,5vw,55px);line-height:1.1;margin:15px 0}
+.hero p{line-height:1.8;color:#e1e5ff}
+.hero img{width:100%;height:290px;object-fit:cover;border-radius:20px}
+.tag{color:#d7d2ff;font-weight:bold;letter-spacing:2px;font-size:12px}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;padding:28px 7%}
+.stat,.card,.panel{background:white;border-radius:15px;padding:22px;box-shadow:0 5px 22px #17204409}
+.stat strong{font-size:27px;color:var(--purple);display:block;margin-bottom:7px}
+main{padding:20px 7% 60px}
+.section-head{display:flex;justify-content:space-between;align-items:center;gap:15px;flex-wrap:wrap}
+input,select{padding:12px;border:1px solid #dce0ec;border-radius:9px;background:white;max-width:100%}
+.filters{display:flex;gap:10px;flex-wrap:wrap;margin:20px 0}
+.events{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px}
+.card{padding:0;overflow:hidden}
+.card img{width:100%;height:165px;object-fit:cover}
+.card-body{padding:18px}
+.pill{display:inline-block;padding:6px 9px;border-radius:20px;background:#efedff;color:#5747c8;font-size:12px}
+.card h3{margin:13px 0 8px}
+.details{color:var(--muted);font-size:13px;line-height:1.9}
+.card button{width:100%;margin-top:12px}
+footer{text-align:center;padding:30px;background:var(--navy);color:white;line-height:1.8}
+.modal{display:none;position:fixed;inset:0;background:#10152cbf;z-index:5;align-items:center;justify-content:center;padding:18px}
+.modal-box{background:white;padding:25px;border-radius:16px;width:min(430px,100%)}
+.modal-box input{width:100%;margin:8px 0 14px}
+.modal-box button{margin:5px 5px 0 0}
+@media(max-width:800px){.hero{grid-template-columns:1fr}.hero img{height:220px}.events{grid-template-columns:repeat(2,minmax(0,1fr))}nav a{margin-left:8px}.stats{gap:9px;padding:20px 4%}main{padding:20px 4%}}
+@media(max-width:520px){header{padding:15px 4%;flex-wrap:wrap;gap:12px}nav{width:100%;display:flex;flex-wrap:wrap;gap:12px}nav a{margin:0}.events{grid-template-columns:1fr}.stat{padding:13px}.stat strong{font-size:22px}.hero{padding:40px 5%}}
+</style>
+</head>
+<body>
+<header>
+<div class="logo">✦ CampusEvents</div>
+<nav>
+<a href="#home">Home</a>
+<a href="#events">Events</a>
+<a href="#about">About</a>
+<a href="#contact">Contact</a>
+<button onclick="openLogin()">Student Login</button>
+</nav>
+</header>
+
+<section class="hero" id="home">
+<div>
+<span class="tag">YOUR CAMPUS. YOUR MOMENTS.</span>
+<h1>Discover. Participate. Make Campus Memories.</h1>
+<p>Explore exciting college events, join workshops, showcase your talent and connect with your campus community.</p>
+<button onclick="document.getElementById('events').scrollIntoView({behavior:'smooth'})">Explore Events →</button>
+</div>
+<img src="https://images.unsplash.com/photo-1540575467063-178a50c2df87?auto=format&fit=crop&w=900&q=80" alt="College conference event" onerror="this.style.display='none'">
+</section>
+
+<section class="stats">
+<div class="stat"><strong id="eventCount">6</strong>Events listed</div>
+<div class="stat"><strong id="regCount">0</strong>My registrations</div>
+<div class="stat"><strong>5</strong>Event categories</div>
+</section>
+
+<main id="events">
+<div class="section-head">
+<div><h2>Explore Campus Events</h2><p style="color:#697386">Find your next great campus experience.</p></div>
+</div>
+<div class="filters">
+<input id="search" placeholder="Search events..." oninput="renderEvents()">
+<select id="category" onchange="renderEvents()">
+<option value="">All categories</option>
+<option>Technical</option><option>Cultural</option><option>Workshop</option><option>Seminar</option><option>Competition</option>
+</select>
+</div>
+<div class="events" id="eventList"></div>
+</main>
+
+<section id="about" style="padding:25px 7% 55px">
+<div class="panel">
+<h2>How It Works</h2>
+<p>01. Discover events that interest you.</p>
+<p>02. Sign in and register for upcoming events.</p>
+<p>03. Attend events and track your participation.</p>
+<p>04. Administrators manage events, venues, students and attendance.</p>
+</div>
+</section>
+
+<footer id="contact">
+<strong>College Event Management System</strong><br>
+DBMS Academic Project<br>
+Student: Pooja | Enrollment: 25STUCHH010813 | Section C<br>
+© 2026 CampusEvents
+</footer>
+
+<div class="modal" id="loginModal">
+<div class="modal-box">
+<h2>Student Details</h2>
+<p>Enter your details to try the event registration demo.</p>
+<label for="studentName">Your name</label>
+<input id="studentName" placeholder="Enter your name">
+<label for="studentEmail">Email address</label>
+<input id="studentEmail" type="email" placeholder="you@example.com">
+<button onclick="saveStudent()">Continue</button>
+<button onclick="closeLogin()" style="background:#e8e9f2;color:#222">Cancel</button>
+<p style="font-size:12px;color:#697386">Demo only: this form does not authenticate an account.</p>
+</div>
+</div>
+
+<script>
+const events=[
+{id:"E101",name:"Code Fest",type:"Technical",date:"2026-09-10",venue:"Computer Lab",img:"https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=700&q=80"},
+{id:"E102",name:"Cultural Fest",type:"Cultural",date:"2026-09-15",venue:"Auditorium",img:"https://images.unsplash.com/photo-1492684223066-81342ee5ff30?auto=format&fit=crop&w=700&q=80"},
+{id:"E103",name:"Workshop",type:"Workshop",date:"2026-09-20",venue:"Seminar Hall",img:"https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=700&q=80"},
+{id:"E104",name:"Tech Seminar",type:"Seminar",date:"2026-11-15",venue:"Seminar Hall",img:"https://images.unsplash.com/photo-1475721027785-f74eccf877e2?auto=format&fit=crop&w=700&q=80"},
+{id:"E105",name:"Coding Challenge",type:"Competition",date:"2026-11-20",venue:"Computer Lab",img:"https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=700&q=80"},
+{id:"E106",name:"Campus Music Day",type:"Cultural",date:"2026-12-05",venue:"Auditorium",img:"https://images.unsplash.com/photo-1501386761578-eac5c94b800a?auto=format&fit=crop&w=700&q=80"}
+];
+let student=null;
+let registrations=JSON.parse(localStorage.getItem("campusDemoRegs")||"[]");
+function renderEvents(){
+ const q=document.getElementById("search").value.toLowerCase();
+ const cat=document.getElementById("category").value;
+ const list=events.filter(e=>(e.name.toLowerCase().includes(q)||e.venue.toLowerCase().includes(q))&&(!cat||e.type===cat));
+ document.getElementById("eventList").innerHTML=list.map(e=>{
+ const past=e.date<new Date().toISOString().slice(0,10);
+ const registered=registrations.some(r=>r.event===e.id&&r.email===student?.email);
+ return `<article class="card"><img src="${e.img}" alt="${e.type} event" onerror="this.style.display='none'"><div class="card-body"><span class="pill">${e.type}</span><h3>${e.name}</h3><div class="details">📅 ${e.date}<br>📍 ${e.venue}<br>Event ID: ${e.id}<br>Status: ${past?'Completed':'Upcoming'}</div><button ${past?'disabled style="background:#999;cursor:not-allowed"':''} onclick="registerEvent('${e.id}')">${past?'Event completed':registered?'Registered ✓':'Register for event'}</button></div></article>`;
+ }).join("")||"<p>No events found. Try another search.</p>";
+ document.getElementById("eventCount").textContent=events.length;
+ document.getElementById("regCount").textContent=student?registrations.filter(r=>r.email===student.email).length:0;
+}
+function openLogin(){document.getElementById("loginModal").style.display="flex"}
+function closeLogin(){document.getElementById("loginModal").style.display="none"}
+function saveStudent(){
+ const name=document.getElementById("studentName").value.trim();
+ const email=document.getElementById("studentEmail").value.trim().toLowerCase();
+ if(!name||!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){alert("Enter your name and a valid email.");return}
+ student={name,email};closeLogin();renderEvents();alert("Demo profile ready.");
+}
+function registerEvent(id){
+ if(!student){openLogin();alert("Enter your demo student details first.");return}
+ if(events.find(e=>e.id===id).date<new Date().toISOString().slice(0,10)){alert("This event has already completed.");return}
+ if(registrations.some(r=>r.event===id&&r.email===student.email)){alert("You are already registered for this event.");return}
+ registrations.push({event:id,email:student.email,name:student.name});
+ localStorage.setItem("campusDemoRegs",JSON.stringify(registrations));
+ renderEvents();alert("Demo registration saved in this browser.");
+}
+renderEvents();
+</script>
+</body>
+</html>
